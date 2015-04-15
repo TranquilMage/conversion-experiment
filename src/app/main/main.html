@@ -1,0 +1,88 @@
+<div class="container">
+    <navbar></navbar>
+    <!-- excuse the poor markup here, just saving time for demo purposes... -->
+
+    <div class="jumbotron text-center">
+        <!-- <h1>Githubber</h1> -->
+        <p>
+            You can use 3 formats
+            <br/><br/>
+            {githubUser}
+            <br/>
+            {githubUser}/{userRepo}
+            <br/>
+            https://github.com/{githubUser}/{userRepo}
+            <br/>
+        </p>
+
+        <p>
+            Pre-populate buttons, for the lazy :)
+        </p>
+        <p>
+            <button class="btn btn-primary" ng-click="mainCtrl.searchData = 'DarrylD'">DarrylD</button>
+            <button class="btn btn-primary" ng-click="mainCtrl.searchData = 'DarrylD/todomvc'">DarrylD/todomvc</button>
+            <button class="btn btn-primary" ng-click="mainCtrl.searchData = 'https://github.com/DarrylD/pasteboard'">https://github.com/DarrylD/pasteboard</button>
+        </p>
+        <p>
+            <input type="text" class="form-control hero-search center-block" ng-model="mainCtrl.searchData" placeholder="Well, start typing...">
+            {{mainCtrl.searchData}}
+        </p>
+
+        <p ng-if="mainCtrl.wrongFormat">
+            wrong formatting...
+        </p>
+    </div>
+
+    <div class="row" ng-if="mainCtrl.searching">
+        <div class="col-md-12">
+            Searching...
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3 col-xs-5">
+
+            <div class="repo-container" ng-repeat="repo in mainCtrl.userInfo">
+                <h3 class="repo-title text-primary" ng-click="mainCtrl.fetchRepoData(repo)">{{repo.name}}</h3>
+            </div>
+
+        </div>
+
+        <div class="col-md-9 col-xs-7" ng-if="mainCtrl.repoInfo">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="repo-title">{{mainCtrl.repoInfo.name}}</h3>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <p>
+                        Contributors: (click one to bring up their profile...) {{mainCtrl.searchData}}
+                    </p>
+                    <img class="contributors-img" ng-click="mainCtrl.searchData = user.login" ng-repeat="user in mainCtrl.contributors" ng-src="{{user.avatar_url}}" alt="" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <p>
+                        {{ mainCtrl.repoInfo.description }}
+                    </p>
+
+                    <button class="button btn btn-primary" ng-click="mainCtrl.showJson = !mainCtrl.showJson">
+                        {{ !mainCtrl.showJson ? 'Show JSON data...' : 'Remove JSON data...'}}
+                    </button>
+                    <br/>
+                    <pre ng-if="mainCtrl.showJson">
+                        {{ mainCtrl.repoInfo | json }}
+                    </pre>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+</div>
